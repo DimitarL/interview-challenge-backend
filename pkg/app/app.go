@@ -4,17 +4,19 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/DimitarL/interview-challenge-backend/pkg/handler"
 	"github.com/DimitarL/interview-challenge-backend/pkg/storage"
 	"github.com/gorilla/mux"
 )
 
 type Application struct {
+	RentVehicles *handler.RentHandler
 }
 
 func NewApplication() *Application {
-	storage.NewAppStorage()
+	st := storage.NewAppStorage()
 
-	return &Application{}
+	return &Application{RentVehicles: handler.NewRentHandler(st)}
 }
 
 func (a *Application) Start(host string, port int) error {
@@ -25,6 +27,10 @@ func (a *Application) Start(host string, port int) error {
 
 func (a *Application) createRouter() *mux.Router {
 	router := mux.NewRouter()
+
+	rentRouter := router.PathPrefix("/rentals").Subrouter()
+	rentRouter.HandleFunc("", a.RentVehicles.GetManyHandler).Methods("GET")
+	// rentRouter.HandleFunc("/{id}", a.RentVehicles.GetByIdHandler).Methods("GET")
 
 	return router
 }
