@@ -4,19 +4,28 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/DimitarL/interview-challenge-backend/common"
 	"github.com/DimitarL/interview-challenge-backend/pkg/entities"
 )
 
 const (
-	getAllQuery = `SELECT rentals.id, rentals.name, rentals.description, rentals.type, rentals.vehicle_make,
+	listAllSelectPartOfQuery = `SELECT rentals.id, rentals.name, rentals.description, rentals.type, rentals.vehicle_make,
 	rentals.vehicle_model, rentals.vehicle_year, rentals.vehicle_length, rentals.sleeps, rentals.primary_image_url,
 	rentals.price_per_day, rentals.home_city, rentals.home_state, rentals.home_zip, rentals.home_country, rentals.lat,
 	rentals.lng, users.id, users.first_name, users.last_name
 	FROM rentals JOIN users ON rentals.user_id = users.id`
 )
 
-func (a AppStorage) ListAllRentVehicles() ([]entities.RentResponse, error) {
+func (a AppStorage) ListAllRentVehicles(params *common.RentalQueryParameters, addWherePart bool) ([]entities.RentResponse, error) {
 	rents := []entities.RentResponse{}
+	var getAllQuery string
+
+	if addWherePart {
+		getAllQuery = listAllSelectPartOfQuery + buildWhereClause(params)
+	} else {
+		getAllQuery = listAllSelectPartOfQuery
+	}
+
 	rows, err := a.conn.Query(context.Background(), getAllQuery)
 	if err != nil {
 		return rents, err
@@ -39,6 +48,10 @@ func (a AppStorage) ListAllRentVehicles() ([]entities.RentResponse, error) {
 	}
 
 	return rents, nil
+}
+
+func buildWhereClause(params *common.RentalQueryParameters) string {
+	return newWhereClauseBuilder().AddParamsIfPresent(params)
 }
 
 func expandRentalEntry(rent *entities.RentResponse) []interface{} {
