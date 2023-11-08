@@ -2,13 +2,22 @@ package storage
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/DimitarL/interview-challenge-backend/common"
 	"github.com/DimitarL/interview-challenge-backend/pkg/entities"
+
+	pgx "github.com/jackc/pgx/v4"
 )
 
 const (
+	getByIdRentQuery = `SELECT rentals.id, rentals.name, rentals.description, rentals.type, rentals.vehicle_make,
+	rentals.vehicle_model, rentals.vehicle_year, rentals.vehicle_length, rentals.sleeps, rentals.primary_image_url,
+	rentals.price_per_day, rentals.home_city, rentals.home_state, rentals.home_zip, rentals.home_country, rentals.lat,
+	rentals.lng, users.id, users.first_name, users.last_name
+	FROM rentals JOIN users ON rentals.user_id = users.id
+	WHERE rentals.id = $1;`
 	listAllSelectPartOfQuery = `SELECT rentals.id, rentals.name, rentals.description, rentals.type, rentals.vehicle_make,
 	rentals.vehicle_model, rentals.vehicle_year, rentals.vehicle_length, rentals.sleeps, rentals.primary_image_url,
 	rentals.price_per_day, rentals.home_city, rentals.home_state, rentals.home_zip, rentals.home_country, rentals.lat,
@@ -48,6 +57,19 @@ func (a AppStorage) ListAllRentVehicles(params *common.RentalQueryParameters, ad
 	}
 
 	return rents, nil
+}
+
+func (a AppStorage) GetRentVehicleById(id int) (*entities.RentResponse, error) {
+	var rentResponseData entities.RentResponse
+
+	err := a.conn.QueryRow(context.Background(), getByIdRentQuery, id).Scan(expandRentalEntry(&rentResponseData)...)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, err
+		}
+	}
+
+	return &rentResponseData, nil
 }
 
 func buildWhereClause(params *common.RentalQueryParameters) string {

@@ -30,7 +30,7 @@ func (a *Application) createRouter() *mux.Router {
 
 	rentRouter := router.PathPrefix("/rentals").Subrouter()
 	rentRouter.HandleFunc("", a.RentVehicles.GetManyHandler).Methods("GET")
-	// rentRouter.HandleFunc("/{id}", a.RentVehicles.GetByIdHandler).Methods("GET")
+	rentRouter.HandleFunc("/{id}", a.RentVehicles.GetByIdHandler).Methods("GET")
 
 	return router
 }
