@@ -14,7 +14,7 @@ import (
 )
 
 type Config struct {
-	DB_CONN_URL string `env:"PORT" envDefault:"postgres://root:root@localhost:5434/testingwithrentals"`
+	DBConnURL string `env:"DB_CONN_URL" envDefault:"postgres://root:root@localhost:5434/testingwithrentals"`
 }
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	pool, err := pgxpool.New(appCtx, cfg.DB_CONN_URL)
+	pool, err := pgxpool.New(appCtx, cfg.DBConnURL)
 	if err != nil {
 		slog.With(slog.String("error", err.Error())).Error("failed connecting to DB")
 		os.Exit(1)
