@@ -5,12 +5,11 @@ Thanks for applying for a backend role at Outdoorsy. We've put together this cod
 ## Running
 ### Running the db
 1. Go to the project home directory
-2. Access the directory migrations via `cd migrations`
-3. Run the db with `docker-compose up`
+2. Run the db with `docker-compose up`
 
 ### Running the server
 1. Go to the project home directory
-2. Run the server with `go run main.go`
+2. Run the server with `go run cmd/main.go`
 
 ### Running the tests
 1. Go to the project home directory
