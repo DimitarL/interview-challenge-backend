@@ -12,6 +12,7 @@ var (
 	ErrMissingRental = errors.New("rental is missing")
 )
 
+//counterfeiter:generate . Store
 type Store interface {
 	// GetRental returns a rental by ID if one is found.
 	// Else it returns a ErrMissingRental.

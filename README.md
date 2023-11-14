@@ -12,6 +12,11 @@ Thanks for applying for a backend role at Outdoorsy. We've put together this cod
 1. Go to the project home directory
 2. Run the server with `go run main.go`
 
+### Running the tests
+1. Go to the project home directory
+2. Install the necessary tools with `make tools-install`
+3. Run the unit and integration tests with `make unit-test`
+
 ## Functionality
 The task is to develop a rentals JSON API that returns a list of rentals that can be filtered, sorted, and paginated. We have included files to create a database of rentals.
 
