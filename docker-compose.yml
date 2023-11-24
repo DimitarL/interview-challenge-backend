@@ -11,4 +11,4 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - ./migrations/01_create_tables.up:/docker-entrypoint-initdb.d/01_create_tables.up
+      - ./migrations/sqls/01_create_tables.up.sql:/docker-entrypoint-initdb.d/01_create_tables.up.sql
