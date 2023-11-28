@@ -1,6 +1,6 @@
 # rental
 
-The end users of the Wheeler Trader application are the workers in car showrooms. Our application does not yet have a UI (it currently exposes REST APIs)
+The end users of the Rental application are the workers in car showrooms. Our application does not yet have a UI (it currently exposes REST APIs)
 
 ## How to run
 ### Running the db
