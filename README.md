@@ -2,6 +2,8 @@
 
 The end users of the Rental application are the workers in car showrooms. Our application does not yet have a UI (it currently exposes REST APIs)
 
+Packages from the latest GO version at the current time (1.21) were used for project development. The code is written according to The Clean Architecture by Uncle Bob.
+
 ## How to run
 ### Running the db
 1. Go to the project home directory
