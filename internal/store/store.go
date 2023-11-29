@@ -127,8 +127,8 @@ func buildRentalsFilter(criteria service.SearchCriteria) string {
 		builder.WriteString(" WHERE " + strings.Join(restrictions, " AND "))
 	}
 
-	if criteria.Sort != nil && *criteria.Sort == "price" {
-		builder.WriteString(" ORDER BY price_per_day")
+	if criteria.Sort != nil {
+		checkSortCriteriaType(criteria, &builder)
 	}
 
 	if criteria.Limit != nil {
@@ -140,4 +140,19 @@ func buildRentalsFilter(criteria service.SearchCriteria) string {
 	}
 
 	return builder.String()
+}
+
+func checkSortCriteriaType(criteria service.SearchCriteria, builder *strings.Builder) {
+	if *criteria.Sort == "price" {
+		builder.WriteString(" ORDER BY price_per_day")
+	}
+	if *criteria.Sort == "year" {
+		builder.WriteString(" ORDER BY vehicle_year")
+	}
+	if *criteria.Sort == "name" {
+		builder.WriteString(" ORDER BY name")
+	}
+	if *criteria.Sort == "make" {
+		builder.WriteString(" ORDER BY vehicle_make")
+	}
 }
