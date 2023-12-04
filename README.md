@@ -32,7 +32,7 @@ Your application should support the following endpoints.
         - offset (number)
         - ids (comma separated list of rental ids)
         - near (comma separated pair [lat,lng])
-        - sort (string)
+        - sort (string) (by price, year, name & make)
     - Examples:
         - `rentals?price_min=9000&price_max=75000`
         - `rentals?limit=3&offset=6`
